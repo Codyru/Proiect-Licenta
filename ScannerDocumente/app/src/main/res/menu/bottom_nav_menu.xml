@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/person"
+        android:title="Camera"
+        android:icon="@drawable/ic_menuitem1_camera"/>
+    <item
+        android:id="@+id/home"
+        android:title="Files"
+        android:icon="@drawable/ic_menuitem2_file"/>
+    <item
+        android:id="@+id/settings"
+        android:title="Select"
+        android:icon="@drawable/ic_menuitem3_fileopen"/>
+</menu>

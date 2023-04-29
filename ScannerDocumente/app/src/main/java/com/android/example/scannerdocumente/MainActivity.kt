@@ -13,7 +13,7 @@ class MainActivity : AppCompatActivity() {
         findViewById<BottomNavigationView>(R.id.bottomNavigationView).setOnItemReselectedListener {
             when(it.itemId){
                 R.id.person-> startActivity(Intent(this,CameraActivity::class.java))
-
+                R.id.settings -> startActivity(Intent(this, FilePickerActivity::class.java))
             }
             true
         }

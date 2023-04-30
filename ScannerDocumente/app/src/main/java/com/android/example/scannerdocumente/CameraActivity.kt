@@ -118,53 +118,68 @@ class CameraActivity : AppCompatActivity() {
                     startActivity(intent)
 //                    Good code keep it just in case
 
-                    val recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
-//                    val savedUri = output.savedUri ?: Uri.fromFile(tempPhotoFile)
-//                    //val savedUri = output.savedUri ?: Uri.EMPTY
-//                    val msg = "Photo capture succeeded: ${output.savedUri}"
-//                    Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
-//                    Log.d(TAG, msg)
+//                    val recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
+////                    val savedUri = output.savedUri ?: Uri.fromFile(tempPhotoFile)
+////                    //val savedUri = output.savedUri ?: Uri.EMPTY
+////                    val msg = "Photo capture succeeded: ${output.savedUri}"
+////                    Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
+////                    Log.d(TAG, msg)
+//
+////                    // Pass the URI to the next activity
+////                    val intent = Intent(this@CameraActivity, ImageShowActivity::class.java)
+////                    intent.putExtra("imageUri", savedUri.toString())
+////                    startActivity(intent)
+//
+////                    Good code keep it just in case
+//
+//                    val image: InputImage
+//                    try {
+//                        image = InputImage.fromFilePath(this@CameraActivity, savedUri)
+//                        recognizer.process(image).addOnSuccessListener {
+//                                result->val resultText = result.text
+//                            for (block in result.textBlocks) {
+//                                val blockText = block.text
+//                                val blockCornerPoints = block.cornerPoints
+//                                val blockFrame = block.boundingBox
+//                                for (line in block.lines) {
+//                                    val lineText = line.text
+//                                    val lineCornerPoints = line.cornerPoints
+//                                    val lineFrame = line.boundingBox
+//                                    for (element in line.elements) {
+//                                        val elementText = element.text
+//                                        val elementCornerPoints = element.cornerPoints
+//                                        val elementFrame = element.boundingBox
+//                                        Log.d("Testing recog result","Element: " + elementText)
+//
+//                                        if(elementText.equals("CNP"))
+//                                            continue
+//                                        if (validateCNP(elementText)){
+//
+//                                            Log.d("CNP_VALIDARE", "Validat sau nu")
+//                                        }
+//
+//
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    } catch (e: IOException) {
+//                        e.printStackTrace()
+//                    }
 
-//                    // Pass the URI to the next activity
-//                    val intent = Intent(this@CameraActivity, ImageShowActivity::class.java)
-//                    intent.putExtra("imageUri", savedUri.toString())
-//                    startActivity(intent)
-
-//                    Good code keep it just in case
-
-                    val image: InputImage
-                    try {
-                        image = InputImage.fromFilePath(this@CameraActivity, savedUri)
-                        recognizer.process(image).addOnSuccessListener {
-                                result->val resultText = result.text
-                            for (block in result.textBlocks) {
-                                val blockText = block.text
-                                val blockCornerPoints = block.cornerPoints
-                                val blockFrame = block.boundingBox
-                                for (line in block.lines) {
-                                    val lineText = line.text
-                                    val lineCornerPoints = line.cornerPoints
-                                    val lineFrame = line.boundingBox
-                                    for (element in line.elements) {
-                                        val elementText = element.text
-                                        val elementCornerPoints = element.cornerPoints
-                                        val elementFrame = element.boundingBox
-                                        Log.d("Testing recog result","Element: " + elementText)
-
-                                        if(elementText.equals("CNP"))
-                                            continue
-                                        if (validateCNP(elementText)){
-
-                                            Log.d("CNP_VALIDARE", "Validat sau nu")
-                                        }
-
-
-                                    }
+                    val textRecognition = TextRecognition(this@CameraActivity)
+                    textRecognition.recognizeText(savedUri) { resultText ->
+                        val cnpValidator = Validator()
+                        val lines = resultText.split("\n")
+                        for (line in lines) {
+                            val words = line.split(" ")
+                            for (word in words) {
+                                if (cnpValidator.validateCNP(word)) {
+                                    Log.d("CNP_VALIDARE", "Este valid")
+                                    Toast.makeText(this@CameraActivity, "CNP valid",  Toast.LENGTH_LONG)
                                 }
                             }
                         }
-                    } catch (e: IOException) {
-                        e.printStackTrace()
                     }
 
 
@@ -216,31 +231,31 @@ class CameraActivity : AppCompatActivity() {
     }
 
 
-    fun validateCNP(CNP:String):Boolean{
-        if (CNP.length != 13 || !CNP.matches("[0-9]+".toRegex())) {
-            return false
-        }
-
-        val controlDigit = CNP[12].toString().toIntOrNull()
-        if (controlDigit == null) {
-            return false
-        }
-
-        val coefficients = arrayOf(2, 7, 9, 1, 4, 6, 3, 5, 8, 2, 7, 9)
-        var sum = 0
-        for (i in 0 until 12) {
-            val digit = CNP[i].toString().toIntOrNull()
-            if (digit == null) {
-                return false
-            }
-            sum += digit * coefficients[i]
-        }
-
-        val remainder = sum % 11
-        val controlDigitComputed = if (remainder == 10) 1 else remainder
-
-        return controlDigit == controlDigitComputed
-    }
+//    fun validateCNP(CNP:String):Boolean{
+//        if (CNP.length != 13 || !CNP.matches("[0-9]+".toRegex())) {
+//            return false
+//        }
+//
+//        val controlDigit = CNP[12].toString().toIntOrNull()
+//        if (controlDigit == null) {
+//            return false
+//        }
+//
+//        val coefficients = arrayOf(2, 7, 9, 1, 4, 6, 3, 5, 8, 2, 7, 9)
+//        var sum = 0
+//        for (i in 0 until 12) {
+//            val digit = CNP[i].toString().toIntOrNull()
+//            if (digit == null) {
+//                return false
+//            }
+//            sum += digit * coefficients[i]
+//        }
+//
+//        val remainder = sum % 11
+//        val controlDigitComputed = if (remainder == 10) 1 else remainder
+//
+//        return controlDigit == controlDigitComputed
+//    }
 
 
     override fun onDestroy() {

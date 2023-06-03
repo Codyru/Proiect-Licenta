@@ -38,11 +38,13 @@ class CameraActivity : AppCompatActivity() {
     private var imageCapture: ImageCapture? = null
     private lateinit var cameraExecutor: ExecutorService
     private var tempPhotoFile: File? = null
-    private val optionSpinner = findViewById<Spinner>(R.id.optionSpinner)
+    private lateinit var optionSpinner: Spinner
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_camera)
+
+        optionSpinner = findViewById(R.id.optionSpinner)
 
         if (allPermissionsGranted()) {
             startCamera()
@@ -124,9 +126,9 @@ class CameraActivity : AppCompatActivity() {
                     val savedUri = output.savedUri ?: Uri.EMPTY
 
                     var selectedOption: String? = null
-                    val options = arrayOf("Buletin", "Diploma", "Pasaport")
-                    val adapter = ArrayAdapter(this@CameraActivity, android.R.layout.simple_spinner_item, options)
-                    optionSpinner.adapter = adapter
+//                    val options = arrayOf("Buletin", "Diploma", "Pasaport")
+//                    val adapter = ArrayAdapter(this@CameraActivity, android.R.layout.simple_spinner_item, options)
+//                    optionSpinner.adapter = adapter
                     optionSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                             val selectedItem = parent?.getItemAtPosition(position).toString()

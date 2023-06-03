@@ -1,9 +1,10 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'org.jetbrains.kotlin.android.extensions'
 }
-
-apply plugin: 'org.jetbrains.kotlin.android.extensions'
 
 android {
     namespace 'com.android.example.scannerdocumente'
@@ -47,8 +48,20 @@ android {
 }
 
 dependencies {
+    // Dependinte pentru Room DB
+
+    def room_version = "2.5.1"
+
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+
+    kapt "androidx.room:room-compiler:$room_version"
+
+    // Dependinta pentru biblioteca OCR
 
     implementation 'com.google.android.gms:play-services-mlkit-text-recognition:18.0.2'
+
+    // Dependinte pentru API-ul de camera numit CameraX
 
     def camerax_version = "1.1.0-beta01"
     implementation "androidx.camera:camera-core:${camerax_version}"
@@ -62,6 +75,8 @@ dependencies {
 
     implementation "androidx.camera:camera-view:${camerax_version}"
     implementation "androidx.camera:camera-extensions:${camerax_version}"
+
+    // Dependinte generale de Android
 
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'

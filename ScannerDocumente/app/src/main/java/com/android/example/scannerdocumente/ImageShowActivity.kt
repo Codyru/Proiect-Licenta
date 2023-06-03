@@ -2,6 +2,8 @@ package com.android.example.scannerdocumente
 
 import android.annotation.SuppressLint
 import android.net.Uri
+import android.os.Build
+import android.os.Build.VERSION
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
@@ -16,6 +18,14 @@ class ImageShowActivity : AppCompatActivity() {
 
 
         val imageUri = Uri.parse(intent.getStringExtra("imageUri"))
+        val bundle = intent.extras
+        val pictureData = if(VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
+            bundle?.getParcelable("pictureData", Picture::class.java)
+        }
+        else{
+            // Functia aceasta e folosita doar pentru API de nivel mai mic decat 33
+            bundle?.getParcelable("pictureData")
+        }
         val imageView = findViewById<ImageView>(R.id.ivSavedImage)
         imageView.setImageURI(imageUri)
 

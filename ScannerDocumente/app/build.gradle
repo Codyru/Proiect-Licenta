@@ -3,9 +3,15 @@ plugins {
     id 'org.jetbrains.kotlin.android'
 }
 
+apply plugin: 'org.jetbrains.kotlin.android.extensions'
+
 android {
     namespace 'com.android.example.scannerdocumente'
     compileSdk 33
+
+    androidExtensions {
+        experimental = true
+    }
 
     defaultConfig {
         applicationId "com.android.example.scannerdocumente"

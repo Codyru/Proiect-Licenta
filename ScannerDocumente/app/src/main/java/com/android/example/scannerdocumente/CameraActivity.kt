@@ -10,7 +10,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.Spinner
 import android.widget.Toast
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
@@ -34,7 +38,7 @@ class CameraActivity : AppCompatActivity() {
     private var imageCapture: ImageCapture? = null
     private lateinit var cameraExecutor: ExecutorService
     private var tempPhotoFile: File? = null
-
+    private val optionSpinner = findViewById<Spinner>(R.id.optionSpinner)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,12 +86,17 @@ class CameraActivity : AppCompatActivity() {
         // Create time stamped name and MediaStore entry.
         val name = SimpleDateFormat(FILENAME_FORMAT, Locale.US)
             .format(System.currentTimeMillis())
+        val currentDate = SimpleDateFormat("yyyy-MM-dd", Locale.US).format(Date())
         val contentValues = ContentValues().apply {
             put(MediaStore.MediaColumns.DISPLAY_NAME, name)
             put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
+            put(MediaStore.Images.Media.DATE_TAKEN, currentDate)
             if(Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
                 put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/CameraX-Image")
             }
+
+
+
         }
 
         // Create output options object which contains file + metadata
@@ -113,8 +122,33 @@ class CameraActivity : AppCompatActivity() {
                         onImageSaved(output: ImageCapture.OutputFileResults){
 
                     val savedUri = output.savedUri ?: Uri.EMPTY
+
+                    var selectedOption: String? = null
+                    val options = arrayOf("Buletin", "Diploma", "Pasaport")
+                    val adapter = ArrayAdapter(this@CameraActivity, android.R.layout.simple_spinner_item, options)
+                    optionSpinner.adapter = adapter
+                    optionSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                        override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                            val selectedItem = parent?.getItemAtPosition(position).toString()
+
+                            // Use a when statement to set the variable based on the selected option
+                            selectedOption = selectedItem
+
+                            // Use the selectedVariable as needed
+                            Log.d(TAG, "Selected type of document for picture: $selectedOption")
+                        }
+
+                        override fun onNothingSelected(parent: AdapterView<*>?) {
+                            // Handle the case when nothing is selected (optional)
+                        }
+                    }
+
+                    val pictureData = Picture(savedUri, name, currentDate, selectedOption)
                     val intent = Intent(this@CameraActivity, ImageShowActivity::class.java)
                     intent.putExtra("imageUri", savedUri.toString())
+                    val bundle = Bundle()
+                    bundle.putParcelable("pictureData", pictureData)
+                    intent.putExtras(bundle)
                     startActivity(intent)
 //                    Good code keep it just in case
 

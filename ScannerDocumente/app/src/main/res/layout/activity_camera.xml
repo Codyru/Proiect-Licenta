@@ -22,6 +22,15 @@
             app:layout_constraintRight_toRightOf="parent"
             android:layout_margin="20dp"/>
 
+        <Spinner
+            android:id="@+id/optionSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/captureButton"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/captureButton"
+            app:layout_constraintRight_toLeftOf="@id/captureButton"/>
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

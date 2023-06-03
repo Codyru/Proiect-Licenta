@@ -145,7 +145,9 @@ class CameraActivity : AppCompatActivity() {
                         }
                     }
 
-                    val pictureData = Picture(savedUri, name, currentDate, selectedOption)
+                    val uriConverter = Converters()
+                    val uriString = uriConverter.fromUri(savedUri)
+                    val pictureData = Picture(uriString, name, currentDate, selectedOption)
                     val intent = Intent(this@CameraActivity, ImageShowActivity::class.java)
                     intent.putExtra("imageUri", savedUri.toString())
                     val bundle = Bundle()

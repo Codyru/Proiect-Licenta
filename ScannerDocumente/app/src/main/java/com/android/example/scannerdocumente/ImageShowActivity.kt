@@ -5,10 +5,13 @@ import android.net.Uri
 import android.os.Build
 import android.os.Build.VERSION
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 
 class ImageShowActivity : AppCompatActivity() {
     @SuppressLint("MissingInflatedId")
@@ -33,10 +36,28 @@ class ImageShowActivity : AppCompatActivity() {
         val deleteButton = findViewById<Button>(R.id.btnDelete)
 
         saveButton.setOnClickListener {
-            // Save the image
-            val outputStream = contentResolver.openOutputStream(imageUri)
-            // Write the image data to the output stream
-            outputStream?.close()
+
+            val entityUri = pictureData?.uri
+            val entityName = pictureData?.name
+            val entityDate = pictureData?.date
+            val entityType = pictureData?.type
+            val imageData = ImageData(uri = entityUri, name = entityName, currentDate = entityDate, documentType = entityType)
+
+            val db = AppDatabase.getInstance(applicationContext)
+            val imageDataDao = db.imageDataDao()
+
+            // Use a coroutine to insert the image data into the database
+            lifecycleScope.launch {
+                // Save the image
+                val outputStream = contentResolver.openOutputStream(imageUri)
+                // Write the image data to the output stream
+                outputStream?.close()
+
+                imageDataDao.insert(imageData)
+                Log.d("Insert", "Inserat cu succes")
+                Toast.makeText(this@ImageShowActivity, "Image saved", Toast.LENGTH_SHORT).show()
+                finish()
+            }
             Toast.makeText(this, "Image saved", Toast.LENGTH_SHORT).show()
             finish()
         }

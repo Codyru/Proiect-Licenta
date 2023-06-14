@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 
 class PictureAdapter(private var entries: List<ImageData>): RecyclerView.Adapter<PictureAdapter.PictureViewHolder>() {
 
@@ -17,7 +18,9 @@ class PictureAdapter(private var entries: List<ImageData>): RecyclerView.Adapter
 
         fun bind(entry: ImageData) {
             val convertor = Converters()
-            pictureImageView.setImageURI(convertor.toUri(entry.uri))
+            Glide.with(itemView)
+                .load(convertor.toUri(entry.uri))
+                .into(pictureImageView)
             nameTextView.text = entry.name
             dateTextView.text = entry.currentDate
             documentTypeTextView.text = entry.documentType

@@ -22,9 +22,9 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<BottomNavigationView>(R.id.bottomNavigationView).setOnItemReselectedListener {
             when(it.itemId){
-                R.id.person-> startActivity(Intent(this,CameraActivity::class.java))
-                R.id.settings -> startActivity(Intent(this, FilePickerActivity::class.java))
-                R.id.home -> {
+                R.id.camera-> startActivity(Intent(this,CameraActivity::class.java))
+                R.id.chooseFile -> startActivity(Intent(this, FilePickerActivity::class.java))
+                R.id.viewDocuments -> {
                     replaceFragment(PictureListFragment())
                     true
                 }

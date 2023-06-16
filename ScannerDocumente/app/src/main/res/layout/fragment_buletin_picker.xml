@@ -10,7 +10,7 @@
             android:id="@+id/btnImageSelect"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Alege imagine"
+            android:text="@string/image_pick"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             android:layout_margin="10dp"

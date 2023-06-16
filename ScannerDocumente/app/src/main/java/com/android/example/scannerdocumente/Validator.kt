@@ -28,4 +28,13 @@ class Validator {
         return controlDigit == controlDigitComputed
     }
 
+    fun checkNationalitate(input: String): Boolean {
+        for (enumValue in Nationalitate.values()) {
+            if (enumValue.name == input) {
+                return true
+            }
+        }
+        return false
+    }
+
 }

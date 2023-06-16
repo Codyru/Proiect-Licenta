@@ -17,4 +17,17 @@ class TextRecognition(private val context: Context) {
             onResult(resultText)
         }
     }
+
+    fun extractLastTwoLines(text: String): Pair<String, String> {
+        val lines = text.split("\n")
+
+        if (lines.size >= 2) {
+            val lastLine = lines[lines.size - 1].trim()
+            val secondLastLine = lines[lines.size - 2].trim()
+
+            return Pair(lastLine, secondLastLine)
+        }
+
+        return Pair("", "")
+    }
 }

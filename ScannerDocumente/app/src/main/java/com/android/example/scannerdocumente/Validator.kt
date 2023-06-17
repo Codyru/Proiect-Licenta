@@ -1,5 +1,6 @@
 package com.android.example.scannerdocumente
 
+import android.util.Log
 import java.time.LocalDate
 import java.text.SimpleDateFormat
 import java.util.*
@@ -46,8 +47,8 @@ class Validator {
         val currentDate = sdf.format(Date())
         val compare = expirationDate.compareTo(currentDate)
         return when{
-            compare > 0 ->  false
-            compare < 0 ->  true
+            compare > 0 ->  true
+            compare < 0 ->  false
             else -> false
         }
     }

@@ -91,16 +91,12 @@ class BuletinPickerFragment : Fragment() {
                 val dateConvertor = Converters()
                 val lastTwoLines = recognizeExpirationDate.extractLastTwoLines(result)
                 val lastLine = lastTwoLines.first
-                Log.d("EXTRACTIE","Utlima line: $lastLine")
-                Log.d("EXTRACTIE_TOTALA", "$result + '${lastLine.length}'")
-//                val expirationDate = lastLine.substring(22,28)
-//                Log.d("DATA_EXPIRARE", "$expirationDate")
-//                val expirationDateCorrectFormat = dateConvertor.toCorrectDateFormat(expirationDate)
-//                Log.d("DATA_EXPIRARE_FORMATATA", "$expirationDateCorrectFormat")
-//                if(expirationDateValidator.validateExpirationDate(expirationDateCorrectFormat))
-//                    Toast.makeText(requireContext(),"Data expirare in termen",Toast.LENGTH_LONG).show()
-//                else
-//                    Toast.makeText(requireContext(),"Data expirare trecuta",Toast.LENGTH_LONG).show()
+                val expirationDate = lastLine.substring(22,28)
+                val expirationDateCorrectFormat = dateConvertor.toCorrectDateFormat(expirationDate)
+                if(expirationDateValidator.validateExpirationDate(expirationDateCorrectFormat))
+                    Toast.makeText(requireContext(),"Data expirare in termen",Toast.LENGTH_LONG).show()
+                else
+                    Toast.makeText(requireContext(),"Data expirare trecuta",Toast.LENGTH_LONG).show()
             }
         }
     }

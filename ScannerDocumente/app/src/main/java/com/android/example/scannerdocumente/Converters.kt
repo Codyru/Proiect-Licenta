@@ -17,9 +17,10 @@ class Converters {
     }
 
     fun toCorrectDateFormat(date: String): String{
-        val date = SimpleDateFormat("yyMMdd", Locale.getDefault())
+        val inputDateFormat = SimpleDateFormat("yyMMdd", Locale.getDefault())
         val outputDateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-        return outputDateFormat.format(date)
+        val parseDate = inputDateFormat.parse(date)
+        return outputDateFormat.format(parseDate)
     }
 
 }

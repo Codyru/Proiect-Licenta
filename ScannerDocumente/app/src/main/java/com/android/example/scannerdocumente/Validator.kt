@@ -1,5 +1,9 @@
 package com.android.example.scannerdocumente
 
+import java.time.LocalDate
+import java.text.SimpleDateFormat
+import java.util.*
+
 class Validator {
 
     fun validateCNP(CNP:String):Boolean{
@@ -33,6 +37,24 @@ class Validator {
             if (enumValue.name == input) {
                 return true
             }
+        }
+        return false
+    }
+
+    fun validateExpirationDate(expirationDate: String): Boolean{
+        val sdf = SimpleDateFormat("dd/MM/yyyy")
+        val currentDate = sdf.format(Date())
+        val compare = expirationDate.compareTo(currentDate)
+        return when{
+            compare > 0 ->  false
+            compare < 0 ->  true
+            else -> false
+        }
+    }
+
+    fun validateSerie(serie: String): Boolean{
+        for(enumValue in Serii.values()){
+            return true
         }
         return false
     }

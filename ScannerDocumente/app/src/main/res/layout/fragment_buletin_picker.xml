@@ -11,20 +11,39 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/image_pick"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/btnDataExpirare"
             app:layout_constraintLeft_toLeftOf="parent"
             android:layout_margin="10dp"
             app:layout_constraintRight_toLeftOf="@id/btnValidate"
             />
         <Button
             android:id="@+id/btnValidate"
-            android:layout_width="wrap_content"
+            android:layout_width="140dp"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/btnDataExpirare"
             app:layout_constraintRight_toRightOf="parent"
-            android:text="Valideaza"
+            android:text="Cnp"
             android:layout_margin="10dp"
             app:layout_constraintLeft_toRightOf="@id/btnImageSelect"/>
+
+        <Button
+            android:id="@+id/btnDataExpirare"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="Data expirare"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/btnImageSelect"/>
+
+        <Button
+            android:id="@+id/btnSerie"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:text="Serie"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/btnValidate"
+            app:layout_constraintStart_toStartOf="@id/btnValidate"
+            android:layout_marginBottom="10dp"/>
 
         <ImageView
             android:id="@+id/ivPicturePicker"

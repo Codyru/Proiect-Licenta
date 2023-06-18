@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:text="@string/image_pick"
         android:layout_margin="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btnExpirationDate"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnNationalitateValidate"/>
 
@@ -28,11 +28,30 @@
         android:id="@+id/btnNationalitateValidate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Val. nation."
+        android:text="Nationalitate"
         android:layout_margin="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btnExpirationDate"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/btnPicSelect"/>
+
+    <Button
+        android:id="@+id/btnExpirationDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/btnPicSelect"
+        android:text="Data expirare"
+        android:layout_marginBottom="10dp"/>
+
+    <Button
+        android:id="@+id/btnCNPValidate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/btnNationalitateValidate"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="10dp"
+        android:text="Valideaza CNP"/>
+
 
 
 

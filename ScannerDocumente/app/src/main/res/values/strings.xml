@@ -2,6 +2,8 @@
     <string name="app_name">Scanner Documente</string>
     <string name="start_capture">Start capture</string>
     <string name="image_pick">Alege imagine</string>
+    <string name="empty_iv_message">Alege o imagine inainte de a face validari.</string>
+    <string name="unrecognized_text">Nu am putut recunoaste textul, incearca din nou sau alege alta imagine.</string>
     <string-array name="options">
         <item>Buletin</item>
         <item>Diploma</item>

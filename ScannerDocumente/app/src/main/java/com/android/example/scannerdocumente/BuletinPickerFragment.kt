@@ -39,7 +39,7 @@ class BuletinPickerFragment : Fragment() {
         btnDataExpirare = view.findViewById(R.id.btnDataExpirare)
 
         onClickOpenImage()
-        onCliclValidateCNP()
+        onClickValidateCNP()
         onClickValidateExpirationDate()
         onClickValidateSerie()
 
@@ -47,22 +47,36 @@ class BuletinPickerFragment : Fragment() {
     }
 
 
-    fun onCliclValidateCNP(){
+    fun onClickValidateCNP(){
+
         btnValidate.setOnClickListener {
-            val textRecognitionForPicker = TextRecognition(requireContext())
-            textRecognitionForPicker.recognizeText(imageURI) { result ->
-                val cnpValidator = Validator()
-                val lines = result.split("\n")
-                for (line in lines) {
-                    val words = line.split(" ")
-                    for (word in words) {
-                        if (cnpValidator.validateCNP(word)) {
-                            Log.d("CNP_VALIDARE", "Este valid")
-                            Toast.makeText(requireContext(), "CNP valid",  Toast.LENGTH_LONG).show()
+            if (imgPhoto.drawable == null){
+                Toast.makeText(requireContext(), R.string.empty_iv_message, Toast.LENGTH_SHORT).show()
+            }
+            else{
+                val textRecognitionForPicker = TextRecognition(requireContext())
+                textRecognitionForPicker.recognizeText(imageURI) { result ->
+                    if (result.isNullOrBlank() || result.trim() == textRecognitionForPicker.errorString || result.length < 10){
+                        Log.d("EROARE_RECUNOASTERE", "Nu am putut recunoaste textul.")
+                        activity?.runOnUiThread {
+                            Toast.makeText(requireContext(), R.string.unrecognized_text, Toast.LENGTH_LONG).show()
                         }
                     }
-                }
+                    else{
+                        val cnpValidator = Validator()
+                        val lines = result.split("\n")
+                        for (line in lines) {
+                            val words = line.split(" ")
+                            for (word in words) {
+                                if (cnpValidator.validateCNP(word)) {
+                                    Log.d("CNP_VALIDARE", "Este valid")
+                                    Toast.makeText(requireContext(), "CNP valid",  Toast.LENGTH_LONG).show()
+                                }
+                            }
+                        }
+                    }
 
+                }
             }
         }
     }
@@ -84,35 +98,58 @@ class BuletinPickerFragment : Fragment() {
     }
 
     fun onClickValidateExpirationDate(){
+
         btnDataExpirare.setOnClickListener {
-            val recognizeExpirationDate = TextRecognition(requireContext())
-            recognizeExpirationDate.recognizeText(imageURI){result ->
-                val expirationDateValidator = Validator()
-                val dateConvertor = Converters()
-                val lastTwoLines = recognizeExpirationDate.extractLastTwoLines(result)
-                val lastLine = lastTwoLines.first
-                val expirationDate = lastLine.substring(22,28)
-                val expirationDateCorrectFormat = dateConvertor.toCorrectDateFormat(expirationDate)
-                if(expirationDateValidator.validateExpirationDate(expirationDateCorrectFormat))
-                    Toast.makeText(requireContext(),"Data expirare in termen",Toast.LENGTH_LONG).show()
-                else
-                    Toast.makeText(requireContext(),"Data expirare trecuta",Toast.LENGTH_LONG).show()
+            if (imgPhoto.drawable == null){
+                Toast.makeText(requireContext(), R.string.empty_iv_message, Toast.LENGTH_SHORT).show()
             }
+            else{
+                val recognizeExpirationDate = TextRecognition(requireContext())
+                recognizeExpirationDate.recognizeText(imageURI){result ->
+                    if (result.isNullOrBlank() || result.trim() == recognizeExpirationDate.errorString || result.length < 10){
+                        Toast.makeText(requireContext(), R.string.unrecognized_text, Toast.LENGTH_SHORT).show()
+                    }
+                    else{
+                        val expirationDateValidator = Validator()
+                        val dateConvertor = Converters()
+                        val lastTwoLines = recognizeExpirationDate.extractLastTwoLines(result)
+                        val lastLine = lastTwoLines.first
+                        val expirationDate = lastLine.substring(22,28)
+                        val expirationDateCorrectFormat = dateConvertor.toCorrectDateFormat(expirationDate)
+                        if(expirationDateValidator.validateExpirationDate(expirationDateCorrectFormat))
+                            Toast.makeText(requireContext(),"Data expirare in termen",Toast.LENGTH_LONG).show()
+                        else
+                            Toast.makeText(requireContext(),"Data expirare trecuta",Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
+
         }
     }
 
     fun onClickValidateSerie(){
         btnSerie.setOnClickListener {
-            val recognizeSerie = TextRecognition(requireContext())
-            recognizeSerie.recognizeText(imageURI){result ->
-                val serieValidator = Validator()
-                val lastTwoLines = recognizeSerie.extractLastTwoLines(result)
-                val lastLine = lastTwoLines.first
-                val serie = lastLine.substring(0,2)
-                if(serieValidator.validateSerie(serie))
-                    Toast.makeText(requireContext(),"Serie valida", Toast.LENGTH_LONG).show()
-                else
-                    Toast.makeText(requireContext(),"Serie invalida", Toast.LENGTH_LONG).show()
+            if (imgPhoto.drawable == null){
+                Toast.makeText(requireContext(), R.string.empty_iv_message, Toast.LENGTH_SHORT).show()
+            }
+            else{
+                val recognizeSerie = TextRecognition(requireContext())
+                recognizeSerie.recognizeText(imageURI){result ->
+                    if (result.isNullOrBlank() || result.trim() == recognizeSerie.errorString || result.length < 10)
+                    {
+                        Toast.makeText(requireContext(), R.string.unrecognized_text, Toast.LENGTH_SHORT).show()
+                    }
+                    else{
+                        val serieValidator = Validator()
+                        val lastTwoLines = recognizeSerie.extractLastTwoLines(result)
+                        val lastLine = lastTwoLines.first
+                        val serie = lastLine.substring(0,2)
+                        if(serieValidator.validateSerie(serie))
+                            Toast.makeText(requireContext(),"Serie valida", Toast.LENGTH_LONG).show()
+                        else
+                            Toast.makeText(requireContext(),"Serie invalida", Toast.LENGTH_LONG).show()
+                    }
+                }
             }
         }
     }

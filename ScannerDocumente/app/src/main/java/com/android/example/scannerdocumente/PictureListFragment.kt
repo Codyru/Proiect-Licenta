@@ -1,10 +1,12 @@
 package com.android.example.scannerdocumente
 
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -59,6 +61,17 @@ class PictureListFragment : Fragment() {
     }
 
     private fun deleteEntry(entry: ImageData) {
+
+        val contentResolver = requireContext().contentResolver
+        
+        // Delete the image file from storage
+        val result = contentResolver.delete(Uri.parse(entry.uri), null, null)
+        if (result != 0) {
+            Toast.makeText(requireContext(), "Poza stearsa cu succes.", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(requireContext(), "Nu am putut sterge poza din memorie.", Toast.LENGTH_SHORT).show()
+        }
+
         lifecycleScope.launch {
             withContext(Dispatchers.IO) {
                 pictureDao.delete(entry)

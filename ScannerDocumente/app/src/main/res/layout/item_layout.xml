@@ -55,8 +55,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="@id/pictureImageView"
-        app:layout_constraintStart_toEndOf="@id/pictureImageView"
-        app:layout_constraintEnd_toStartOf="@id/nameTextView"
+        app:layout_constraintStart_toStartOf="@id/dateTextView"
+        app:tint="@color/teal_700"
         android:src="@drawable/send_data_validation"/>
 
     <ImageView
@@ -64,8 +64,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="@id/pictureImageView"
-        app:layout_constraintStart_toStartOf="@id/nameTextView"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/dateTextView"
+        app:tint="@color/red"
         android:src="@drawable/delete_picture"/>
 
 

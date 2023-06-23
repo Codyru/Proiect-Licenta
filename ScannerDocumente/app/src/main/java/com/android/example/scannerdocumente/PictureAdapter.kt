@@ -7,14 +7,21 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import kotlinx.android.synthetic.main.activity_image_show.view.*
 
-class PictureAdapter(private var entries: List<ImageData>): RecyclerView.Adapter<PictureAdapter.PictureViewHolder>() {
+class PictureAdapter(private var entries: List<ImageData>, private val deleteListener: OnDeleteListener): RecyclerView.Adapter<PictureAdapter.PictureViewHolder>() {
+
+    interface OnDeleteListener {
+        fun onDelete(entry: ImageData)
+    }
 
     inner class PictureViewHolder(itemView: View) :  RecyclerView.ViewHolder(itemView) {
         private val pictureImageView: ImageView = itemView.findViewById(R.id.pictureImageView)
         private val nameTextView: TextView = itemView.findViewById(R.id.nameTextView)
         private val dateTextView: TextView = itemView.findViewById(R.id.dateTextView)
         private val documentTypeTextView: TextView = itemView.findViewById(R.id.documentTypeTextView)
+        private val btnDeletePicture: ImageView = itemView.findViewById(R.id.ivDeletePicture)
+        private val btnSendValidationData: ImageView = itemView.findViewById(R.id.ivSendValidationData)
 
         fun bind(entry: ImageData) {
             val convertor = Converters()
@@ -24,6 +31,10 @@ class PictureAdapter(private var entries: List<ImageData>): RecyclerView.Adapter
             nameTextView.text = entry.name
             dateTextView.text = entry.currentDate
             documentTypeTextView.text = entry.documentType
+
+            btnDeletePicture.setOnClickListener {
+                deleteListener.onDelete(entry)
+            }
         }
 
 
@@ -38,6 +49,7 @@ class PictureAdapter(private var entries: List<ImageData>): RecyclerView.Adapter
     override fun onBindViewHolder(holder: PictureViewHolder, position: Int) {
         val entry = entries[position]
         holder.bind(entry)
+
     }
 
     override fun getItemCount(): Int {

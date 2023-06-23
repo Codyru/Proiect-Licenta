@@ -12,6 +12,7 @@ import androidx.room.Room
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.nio.file.Files.delete
 
 
 class PictureListFragment : Fragment() {
@@ -20,6 +21,12 @@ class PictureListFragment : Fragment() {
     private lateinit var adapter: PictureAdapter
     private lateinit var pictureDao: ImageDataDao
 
+    private val deleteListener = object : PictureAdapter.OnDeleteListener {
+        override fun onDelete(entry: ImageData) {
+            deleteEntry(entry)
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -27,7 +34,7 @@ class PictureListFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_picture_list, container, false)
         recyclerView = view.findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        adapter = PictureAdapter(emptyList())
+        adapter = PictureAdapter(emptyList(), deleteListener)
         recyclerView.adapter = adapter
         return view
     }
@@ -50,4 +57,19 @@ class PictureListFragment : Fragment() {
         }
 
     }
+
+    private fun deleteEntry(entry: ImageData) {
+        lifecycleScope.launch {
+            withContext(Dispatchers.IO) {
+                pictureDao.delete(entry)
+            }
+            // Refresh the RecyclerView after deletion
+            val updatedEntries = withContext(Dispatchers.IO) {
+                pictureDao.getAllImages()
+            }
+            adapter.setData(updatedEntries)
+        }
+    }
+
+
 }

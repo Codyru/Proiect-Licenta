@@ -1,5 +1,6 @@
 package com.android.example.scannerdocumente
 
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import android.view.ViewGroup
 
 class DiplomaPickerFragment : Fragment() {
 
+    private var pictureUri: Uri? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_pasaport_picker.*
 
 
@@ -26,6 +27,8 @@ class PasaportPickerFragment : Fragment() {
     private lateinit var imageURI: Uri
     private lateinit var btnCNP: Button
     private lateinit var btnExpirationDate: Button
+    private var pictureUri: Uri? = null
+    private var documentType: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,6 +42,13 @@ class PasaportPickerFragment : Fragment() {
         ivPic = view.findViewById(R.id.ivPicPicker)
         btnCNP = view.findViewById(R.id.btnCNPValidate)
         btnExpirationDate = view.findViewById(R.id.btnExpirationDate)
+
+        arguments?.let {
+            pictureUri = it.getParcelable("PICTURE_URI")
+            documentType = it.getString("DOCUMENT_TYPE")
+        }
+
+        loadFromPictureFromRV()
 
         pickImage()
         validateNationality()
@@ -161,6 +171,15 @@ class PasaportPickerFragment : Fragment() {
             }
         }
     }
+    }
+
+    fun loadFromPictureFromRV(){
+        if(pictureUri != null && documentType == "Pasaport") {
+            Glide.with(requireContext())
+                .load(pictureUri)
+                .into(ivPic)
+            imageURI = pictureUri!!
+        }
     }
 
 }

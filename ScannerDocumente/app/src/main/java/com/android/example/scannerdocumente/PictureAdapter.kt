@@ -1,5 +1,7 @@
 package com.android.example.scannerdocumente
 
+import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,6 +24,23 @@ class PictureAdapter(private var entries: List<ImageData>, private val deleteLis
         private val documentTypeTextView: TextView = itemView.findViewById(R.id.documentTypeTextView)
         private val btnDeletePicture: ImageView = itemView.findViewById(R.id.ivDeletePicture)
         private val btnSendValidationData: ImageView = itemView.findViewById(R.id.ivSendValidationData)
+
+        init {
+            btnSendValidationData.setOnClickListener {
+                val position = bindingAdapterPosition
+                if(position != RecyclerView.NO_POSITION){
+                    val entry = entries[position]
+                    val entryUri = entry.uri
+                    val entryDocumentType = entry.documentType
+                    val context = itemView.context
+                    val intent = Intent(context, FilePickerActivity::class.java)
+                    intent.putExtra("PICTURE_URI", entryUri)
+                    Log.d("PICTURE_ADAPTER", "$entryUri")
+                    intent.putExtra("PICTURE_DOCUMENT_TYPE", entryDocumentType)
+                    context.startActivity(intent)
+                }
+            }
+        }
 
         fun bind(entry: ImageData) {
             val convertor = Converters()

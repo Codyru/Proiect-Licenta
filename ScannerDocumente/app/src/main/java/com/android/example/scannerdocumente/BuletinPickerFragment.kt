@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import com.bumptech.glide.Glide
 
 
 class BuletinPickerFragment : Fragment() {
@@ -24,6 +25,8 @@ class BuletinPickerFragment : Fragment() {
     private lateinit var btnValidate: Button
     private lateinit var btnSerie: Button
     private lateinit var btnDataExpirare: Button
+    private var pictureUri: Uri? = null
+    private var documentType: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,6 +40,13 @@ class BuletinPickerFragment : Fragment() {
         btnValidate = view.findViewById(R.id.btnValidate)
         btnSerie = view.findViewById(R.id.btnSerie)
         btnDataExpirare = view.findViewById(R.id.btnDataExpirare)
+
+        arguments?.let {
+            pictureUri = it.getParcelable("PICTURE_URI")
+            documentType = it.getString("DOCUMENT_TYPE")
+        }
+
+        loadFromPictureFromRV()
 
         onClickOpenImage()
         onClickValidateCNP()
@@ -152,6 +162,16 @@ class BuletinPickerFragment : Fragment() {
                 }
             }
         }
+    }
+
+    fun loadFromPictureFromRV(){
+        if(pictureUri != null && documentType == "Buletin") {
+            Glide.with(requireContext())
+                .load(pictureUri)
+                .into(imgPhoto)
+            imageURI = pictureUri!!
+        }
+
     }
 
 }

@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
         fragmentContainer = findViewById(R.id.fragmentContainer)
         bottomNavigationView = findViewById(R.id.bottomNavigationView)
 
-        findViewById<BottomNavigationView>(R.id.bottomNavigationView).setOnItemReselectedListener {
+        findViewById<BottomNavigationView>(R.id.bottomNavigationView).setOnItemSelectedListener {
             when(it.itemId){
                 R.id.camera-> startActivity(Intent(this,CameraActivity::class.java))
                 R.id.chooseFile -> startActivity(Intent(this, FilePickerActivity::class.java))

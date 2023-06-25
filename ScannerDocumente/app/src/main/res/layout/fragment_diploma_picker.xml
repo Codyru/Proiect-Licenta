@@ -11,10 +11,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btnSelectImage"
         android:layout_margin="10dp"
         android:text="Valideaza"/>
+
+    <Button
+        android:id="@+id/btnSelectImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btnValidateDiploma"
+        android:layout_margin="10dp"
+        android:text="@string/image_pick"/>
+
     <ImageView
         android:id="@+id/ivDiploma"
         android:layout_width="match_parent"

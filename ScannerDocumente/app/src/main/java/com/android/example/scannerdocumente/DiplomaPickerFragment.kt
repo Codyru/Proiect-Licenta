@@ -10,6 +10,9 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.activity.result.ActivityResultCallback
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import com.bumptech.glide.Glide
 import org.w3c.dom.Text
 
@@ -20,6 +23,8 @@ class DiplomaPickerFragment : Fragment() {
     private lateinit var btnValidateDiploma: Button
     private lateinit var ivDiploma: ImageView
     private var documentType: String? = null
+    private lateinit var btnSelectImage: Button
+    private lateinit var activityResultLauncher: ActivityResultLauncher<String>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,6 +35,7 @@ class DiplomaPickerFragment : Fragment() {
 
         btnValidateDiploma = view.findViewById(R.id.btnValidateDiploma)
         ivDiploma = view.findViewById(R.id.ivDiploma)
+        btnSelectImage = view.findViewById(R.id.btnSelectImage)
 
         arguments?.let {
             pictureUri = it.getParcelable("PICTURE_URI")
@@ -39,6 +45,8 @@ class DiplomaPickerFragment : Fragment() {
         btnValidateDiploma.setOnClickListener {
             extractDiplomaText()
         }
+
+        pickImage()
 
         loadFromPictureFromRV()
 
@@ -67,6 +75,22 @@ class DiplomaPickerFragment : Fragment() {
                 Toast.makeText(requireContext(), "Rezultat recunoscut", Toast.LENGTH_LONG).show()
             }
         } }
+    }
+
+    fun pickImage(){
+        activityResultLauncher = registerForActivityResult(
+            ActivityResultContracts.GetContent(),
+            ActivityResultCallback { uri ->
+                if (uri != null) {
+                    ivDiploma.setImageURI(uri)
+                    pictureUri = uri
+                }
+            }
+        )
+
+        btnSelectImage.setOnClickListener {
+            activityResultLauncher.launch("image/*")
+        }
     }
 
 }

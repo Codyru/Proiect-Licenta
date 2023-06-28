@@ -14,6 +14,10 @@ import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import com.bumptech.glide.Glide
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.w3c.dom.Text
 
 
@@ -71,8 +75,36 @@ class DiplomaPickerFragment : Fragment() {
                 }
             }
             else{
-                Log.d("RESULT", "$result")
-                Toast.makeText(requireContext(), "Rezultat recunoscut", Toast.LENGTH_LONG).show()
+                val lines = result.split("\n")
+                var university = ""
+                for(line in lines)
+                {
+                    if(line.contains("UNIVERSITATEA"))
+                    {   university = line
+                        val convertor = Converters()
+                        Log.d("UNIVERSITATE_BEFORE", "$university")
+                        university = convertor.convertRomanianDiacritics(university)
+                        Log.d("UNIVERSITATE_AFTER", "$university")
+                        val universityDao = AppDatabase.getInstance(requireContext()).UniversityDao()
+
+                        val scope = CoroutineScope(Dispatchers.Main)
+
+                        scope.launch {
+                            val isUniversityExists = withContext(Dispatchers.IO) {
+                                // Perform the database query on the background thread
+                                universityDao.searchUniversityName(university)
+                            }
+
+                            if (isUniversityExists) {
+                                Toast.makeText(requireContext(), "Diploma valida", Toast.LENGTH_SHORT).show()
+                            } else {
+                                Toast.makeText(requireContext(), "Diploma invalida", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+
+                        break
+                    }
+                }
             }
         } }
     }

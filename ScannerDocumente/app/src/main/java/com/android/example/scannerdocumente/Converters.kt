@@ -2,6 +2,7 @@ package com.android.example.scannerdocumente
 
 import android.net.Uri
 import androidx.room.TypeConverter
+import java.text.Normalizer
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -21,6 +22,13 @@ class Converters {
         val outputDateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         val parseDate = inputDateFormat.parse(date)
         return outputDateFormat.format(parseDate)
+    }
+
+    fun convertRomanianDiacritics(input: String): String {
+        val normalized = Normalizer.normalize(input, Normalizer.Form.NFD)
+        val regex = "\\p{Mn}".toRegex()
+        val converted = regex.replace(normalized, "")
+        return converted
     }
 
 }

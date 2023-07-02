@@ -37,4 +37,26 @@ class TextRecognition(private val context: Context) {
 
         return Pair("", "")
     }
+
+    fun extractCNP(cnpLine: String): String{
+        var ocrResult = ""
+        if (cnpLine.contains("CNP"))
+            ocrResult = cnpLine
+
+
+        val pattern = Regex("\\b\\d{13}\\b")
+
+
+        val matchResult = pattern.find(ocrResult)
+
+
+        val number = matchResult?.value
+
+
+        return if (number != null) {
+            number.toString()
+        } else {
+            ""
+        }
+    }
 }

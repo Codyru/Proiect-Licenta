@@ -73,17 +73,20 @@ class BuletinPickerFragment : Fragment() {
                         }
                     }
                     else{
+                        Log.d("RESULT", "$result")
                         val cnpValidator = Validator()
-                        val lines = result.split("\n")
-                        for (line in lines) {
-                            val words = line.split(" ")
-                            for (word in words) {
-                                if (cnpValidator.validateCNP(word)) {
-                                    Log.d("CNP_VALIDARE", "Este valid")
-                                    Toast.makeText(requireContext(), "CNP valid",  Toast.LENGTH_LONG).show()
-                                }
-                            }
+
+                        val cnp = textRecognitionForPicker.extractCNP(result)
+                        Log.d("CNP", "$cnp")
+                        if(cnpValidator.validateCNP(cnp)){
+                            Log.d("CNP_VALIDARE", "Este valid")
+                            Toast.makeText(requireContext(), "CNP valid",  Toast.LENGTH_LONG).show()
                         }
+                        else{
+                            Log.d("CNP_INVALIDARE", "Este invalid")
+                            Toast.makeText(requireContext(), "CNP invalid",  Toast.LENGTH_LONG).show()
+                        }
+
                     }
 
                 }
@@ -124,8 +127,11 @@ class BuletinPickerFragment : Fragment() {
                         val dateConvertor = Converters()
                         val lastTwoLines = recognizeExpirationDate.extractLastTwoLines(result)
                         val lastLine = lastTwoLines.first
-                        val expirationDate = lastLine.substring(22,28)
+                        Log.d("LAST_LINE", "$lastLine")
+                        val expirationDate = lastLine.substring(21,27)
+                        Log.d("EXPIRATION_DATE", "$expirationDate")
                         val expirationDateCorrectFormat = dateConvertor.toCorrectDateFormat(expirationDate)
+                        Log.d("CONVERTED_EXPIRATION", "$expirationDateCorrectFormat")
                         if(expirationDateValidator.validateExpirationDate(expirationDateCorrectFormat))
                             Toast.makeText(requireContext(),"Data expirare in termen",Toast.LENGTH_LONG).show()
                         else

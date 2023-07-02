@@ -44,8 +44,11 @@ class Validator {
 
     fun validateExpirationDate(expirationDate: String): Boolean{
         val sdf = SimpleDateFormat("dd/MM/yyyy")
-        val currentDate = sdf.format(Date())
+        var currentDateString = sdf.format(Date())
+        val currentDate = sdf.parse(currentDateString)
+        val expirationDate = sdf.parse(expirationDate)
         val compare = expirationDate.compareTo(currentDate)
+        Log.d("DATA_EXPIRARE", "$currentDate + $compare + $expirationDate")
         return when{
             compare > 0 ->  true
             compare < 0 ->  false
@@ -55,7 +58,11 @@ class Validator {
 
     fun validateSerie(serie: String): Boolean{
         for(enumValue in Serii.values()){
-            return true
+            if (serie == enumValue.toString())
+            {
+                return true
+                break
+            }
         }
         return false
     }

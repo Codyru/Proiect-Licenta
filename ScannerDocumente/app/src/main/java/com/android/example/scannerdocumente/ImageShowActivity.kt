@@ -46,11 +46,11 @@ class ImageShowActivity : AppCompatActivity() {
             val db = AppDatabase.getInstance(applicationContext)
             val imageDataDao = db.imageDataDao()
 
-            // Use a coroutine to insert the image data into the database
+
             lifecycleScope.launch {
-                // Save the image
+
                 val outputStream = contentResolver.openOutputStream(imageUri)
-                // Write the image data to the output stream
+
                 outputStream?.close()
 
                 imageDataDao.insert(imageData)
@@ -63,7 +63,7 @@ class ImageShowActivity : AppCompatActivity() {
         }
 
         deleteButton.setOnClickListener {
-            // Delete the image
+
             contentResolver.delete(imageUri, null, null)
             Toast.makeText(this, "Image deleted", Toast.LENGTH_SHORT).show()
             finish()

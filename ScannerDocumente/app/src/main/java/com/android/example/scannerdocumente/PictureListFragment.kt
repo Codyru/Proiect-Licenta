@@ -14,7 +14,6 @@ import androidx.room.Room
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.nio.file.Files.delete
 
 
 class PictureListFragment : Fragment() {
@@ -64,7 +63,7 @@ class PictureListFragment : Fragment() {
 
         val contentResolver = requireContext().contentResolver
         
-        // Delete the image file from storage
+
         val result = contentResolver.delete(Uri.parse(entry.uri), null, null)
         if (result != 0) {
             Toast.makeText(requireContext(), "Poza stearsa cu succes.", Toast.LENGTH_SHORT).show()
@@ -76,7 +75,7 @@ class PictureListFragment : Fragment() {
             withContext(Dispatchers.IO) {
                 pictureDao.delete(entry)
             }
-            // Refresh the RecyclerView after deletion
+
             val updatedEntries = withContext(Dispatchers.IO) {
                 pictureDao.getAllImages()
             }

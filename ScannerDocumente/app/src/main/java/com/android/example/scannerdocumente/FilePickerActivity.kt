@@ -30,7 +30,7 @@ private val tabTitles = listOf("Buletin", "Pasaport", "Diploma")
         val adapter = ViewPagerAdapter(supportFragmentManager, lifecycle, pictureURI, documentType)
         viewPager.adapter = adapter
 
-        // Connect the TabLayout and ViewPager2
+
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = "Tab $position"
         }.attach()

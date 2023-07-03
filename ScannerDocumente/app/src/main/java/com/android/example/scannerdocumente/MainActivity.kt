@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,7 +19,7 @@ class MainActivity : AppCompatActivity() {
         fragmentContainer = findViewById(R.id.fragmentContainer)
         bottomNavigationView = findViewById(R.id.bottomNavigationView)
 
-        findViewById<BottomNavigationView>(R.id.bottomNavigationView).setOnItemSelectedListener {
+        bottomNavigationView.setOnItemSelectedListener {
             when(it.itemId){
                 R.id.camera-> startActivity(Intent(this,CameraActivity::class.java))
                 R.id.chooseFile -> startActivity(Intent(this, FilePickerActivity::class.java))

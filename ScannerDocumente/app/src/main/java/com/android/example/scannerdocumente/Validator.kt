@@ -1,7 +1,6 @@
 package com.android.example.scannerdocumente
 
 import android.util.Log
-import java.time.LocalDate
 import java.text.SimpleDateFormat
 import java.util.*
 

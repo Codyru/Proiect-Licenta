@@ -9,7 +9,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import kotlinx.android.synthetic.main.activity_image_show.view.*
 
 class PictureAdapter(private var entries: List<ImageData>, private val deleteListener: OnDeleteListener): RecyclerView.Adapter<PictureAdapter.PictureViewHolder>() {
 

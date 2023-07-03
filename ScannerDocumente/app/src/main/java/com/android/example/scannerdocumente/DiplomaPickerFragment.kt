@@ -34,7 +34,7 @@ class DiplomaPickerFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+
         val view = inflater.inflate(R.layout.fragment_diploma_picker, container, false)
 
         btnValidateDiploma = view.findViewById(R.id.btnValidateDiploma)
@@ -91,7 +91,7 @@ class DiplomaPickerFragment : Fragment() {
 
                         scope.launch {
                             val isUniversityExists = withContext(Dispatchers.IO) {
-                                // Perform the database query on the background thread
+
                                 universityDao.searchUniversityName(university)
                             }
 

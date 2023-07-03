@@ -26,7 +26,7 @@ abstract class AppDatabase : RoomDatabase() {
                 ).addCallback(object : RoomDatabase.Callback() {
                     override fun onCreate(db: SupportSQLiteDatabase) {
                         super.onCreate(db)
-                        // Insert prepopulated data here
+
                         db.execSQL("INSERT INTO `University` (`name`, `location`, `foundationDate`, `type`) VALUES ('UNIVERSITATEA OVIDIUS DIN CONSTANTA', 'CONSTANTA', '1990', 'DE STAT')")
                         db.execSQL("INSERT INTO `University` (`name`, `location`, `foundationDate`, `type`) VALUES ('UNIVERSITATEA DE VEST DIN TIMISOARA', 'TIMISOARA', '1944', 'DE STAT')")
                         db.execSQL("INSERT INTO `University` (`name`, `location`, `foundationDate`, `type`) VALUES ('UNIVERSITATEA LUCIAN BLAGA DIN SIBIU', 'SIBIU', '1990', 'DE STAT')")

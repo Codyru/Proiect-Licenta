@@ -2,6 +2,7 @@ package com.android.example.scannerdocumente
 
 import android.net.Uri
 import android.os.Bundle
+import android.text.TextUtils.substring
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -32,7 +33,7 @@ class BuletinPickerFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+
         val view = inflater.inflate(R.layout.fragment_buletin_picker, container, false)
 
         imgPhoto = view.findViewById(R.id.ivPicturePicker)
@@ -128,7 +129,8 @@ class BuletinPickerFragment : Fragment() {
                         val lastTwoLines = recognizeExpirationDate.extractLastTwoLines(result)
                         val lastLine = lastTwoLines.first
                         Log.d("LAST_LINE", "$lastLine")
-                        val expirationDate = lastLine.substring(21,27)
+                        val lastLineNoSpace = lastLine.replace(" ", "")
+                        val expirationDate = lastLineNoSpace.substring(21,27)
                         Log.d("EXPIRATION_DATE", "$expirationDate")
                         val expirationDateCorrectFormat = dateConvertor.toCorrectDateFormat(expirationDate)
                         Log.d("CONVERTED_EXPIRATION", "$expirationDateCorrectFormat")

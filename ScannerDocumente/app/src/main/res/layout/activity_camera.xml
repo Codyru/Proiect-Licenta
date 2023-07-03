@@ -28,6 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:entries="@array/options"
+            android:padding="15dp"
             app:layout_constraintBottom_toBottomOf="@+id/captureButton"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="@+id/captureButton"

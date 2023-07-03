@@ -16,11 +16,11 @@ class ViewPagerAdapter(
 ) : FragmentStateAdapter(fragmentManager, lifecycle) {
 
     override fun getItemCount(): Int {
-        return 3 // Return the number of tabs
+        return 3
     }
 
     override fun createFragment(position: Int): Fragment {
-        // Create and return the fragment for each tab
+
         return when (position) {
             0 -> {
                 val fragment = BuletinPickerFragment()
